@@ -37,8 +37,24 @@
     <sprite>sprites\spr_shape04</sprite>
     <sprite>sprites\spr_tods</sprite>
     <sprite>sprites\spr_vehicle</sprite>
+    <sprite>sprites\sprite31</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\bck_01</background>
+    <background>background\bck_02</background>
+    <background>background\bck_03</background>
+    <background>background\bck_04</background>
+    <background>background\bck_05</background>
+    <background>background\bck_06</background>
+    <background>background\bck_07</background>
+    <background>background\bck_08</background>
+    <background>background\bck_09</background>
+    <background>background\bck_10</background>
+    <background>background\bck_11</background>
+    <background>background\bck_arrow</background>
+    <background>background\bck_campfire</background>
+    <background>background\bck_dirt</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\difference_angle.gml</script>
@@ -68,6 +84,9 @@
     <object>objects\obj_client</object>
     <object>objects\obj_lightengine</object>
     <object>objects\obj_player</object>
+    <objects name="Decor">
+      <object>objects\obj_bush01</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\start</room>

@@ -123,8 +123,8 @@ if keyboard_check(ord("D")) {
     strafe += (4*speedmod)*(60/max(room_speed,1));
     }
 if strafe != 0 {
-x += lengthdir_x(4,direction-90);
-y += lengthdir_y(4,direction-90);
+x += lengthdir_x(strafe,direction-90);
+y += lengthdir_y(strafe,direction-90);
     }
 //Basic Sprint
 if keyboard_check_direct(vk_lshift) {
