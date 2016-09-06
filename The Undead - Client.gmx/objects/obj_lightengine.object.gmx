@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-250</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -59,10 +59,14 @@ sl_timespeed = (1/60) / room_speed // Determines the speed of the clock
 // Generate ambient maps
 SL_sprite_set_ambient (spr_character);
 SL_sprite_set_ambient (spr_bush01);
+SL_sprite_set_ambient (spr_crate02);
+SL_sprite_set_ambient (spr_crate02);
 // List of objects projecting a global shadow
 // SL_global_cast_obj(layer,object,sprite,sun,amb);
 SL_global_cast_obj(0, obj_player, spr_character_smask, 1, 1);
-SL_global_cast_obj(1, obj_bush01, spr_bush01_shadow, 2, 1);
+SL_global_cast_obj(2, obj_bush01, spr_bush01_shadow, 2, 1);
+SL_global_cast_obj(1, obj_crate02, spr_crate02, 1, 1);
+SL_global_cast_obj(1, obj_crate01, spr_crate01, 1, 1);
 // List of light objects
 //SL_add_light (obj_light_01);
 SL_ToD (); // Initialize the ToD

@@ -17,6 +17,7 @@
     <sprite>sprites\spr_crate01</sprite>
     <sprite>sprites\spr_crate02</sprite>
     <sprite>sprites\spr_crate03</sprite>
+    <sprite>sprites\spr_cratemask</sprite>
     <sprite>sprites\spr_crate03b</sprite>
     <sprite>sprites\spr_cursor</sprite>
     <sprite>sprites\spr_fire</sprite>
@@ -84,8 +85,11 @@
     <object>objects\obj_client</object>
     <object>objects\obj_lightengine</object>
     <object>objects\obj_player</object>
+    <object>objects\obj_solid</object>
     <objects name="Decor">
       <object>objects\obj_bush01</object>
+      <object>objects\obj_crate02</object>
+      <object>objects\obj_crate01</object>
     </objects>
   </objects>
   <rooms name="rooms">
