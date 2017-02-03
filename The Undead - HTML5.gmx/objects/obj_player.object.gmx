@@ -36,7 +36,7 @@ speedMod = 1; // This is multiplied by all the movement speeds (strafing, forwar
 // Base movement speed variables.
 baseSpeed = 2;
 roomSpeedMod = 1; // An extra speed modifier in-case of a future room speed ajustment.
-baseBackwardSpeedMultiplier = 1;
+baseBackwardSpeedMultiplier = 0.9; // End result of 1.8
 baseStrafeSpeedMultiplier = 1;
 sprintSpeedMultiplier = 1.5; // 150% increase to the baseSpeed
 </string>
@@ -232,10 +232,10 @@ if (keyboard_check(leftStrafeKey)) {
 }
 if (keyboard_check(rightStrafeKey)) {
     if (keyboard_check(sprintKey) &amp;&amp; doesSprintAffectStrafe) { // Is sprinting
-           strafe += baseSpeed * baseStrafeSpeedMultiplier * sprintSpeedMultiplier * speedMod * roomSpeedMod; // Speed with sprint
+        strafe += baseSpeed * baseStrafeSpeedMultiplier * sprintSpeedMultiplier * speedMod * roomSpeedMod; // Speed with sprint
     }
     else {
-            strafe += baseSpeed * baseStrafeSpeedMultiplier * speedMod * roomSpeedMod; // Speed
+        strafe += baseSpeed * baseStrafeSpeedMultiplier * speedMod * roomSpeedMod; // Speed
     }
 }
 // If the player is pressing a "strafe" key
