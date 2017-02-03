@@ -39,6 +39,7 @@
     <sprite>sprites\spr_tods</sprite>
     <sprite>sprites\spr_vehicle</sprite>
     <sprite>sprites\sprite31</sprite>
+    <sprite>sprites\spr_derp</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bck_01</background>
@@ -61,6 +62,7 @@
     <script>scripts\difference_angle.gml</script>
     <script>scripts\angle_rotate.gml</script>
     <script>scripts\ReceivedPacket.gml</script>
+    <script>scripts\scr_collision_line_first.gml</script>
     <scripts name="CBNA">
       <script>scripts\SL_ToD.gml</script>
       <script>scripts\SL_engine_ini_begin.gml</script>
@@ -80,6 +82,7 @@
       <script>scripts\SL_sprite_set_ambient.gml</script>
       <script>scripts\SL_set_time.gml</script>
     </scripts>
+    <script>scripts\scr_cansee.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_client</object>
@@ -91,6 +94,8 @@
       <object>objects\obj_crate02</object>
       <object>objects\obj_crate01</object>
     </objects>
+    <object>objects\obj_enemy</object>
+    <object>objects\obj_zombie</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\start</room>
