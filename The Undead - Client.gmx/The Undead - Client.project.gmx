@@ -79,7 +79,7 @@
     </scripts>
     <script>scripts\difference_angle.gml</script>
     <script>scripts\angle_rotate.gml</script>
-    <script>scripts\ReceivedPacket.gml</script>
+    <script>scripts\received_packets.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_client</object>

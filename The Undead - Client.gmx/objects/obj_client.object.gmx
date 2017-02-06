@@ -26,11 +26,13 @@
           <argument>
             <kind>1</kind>
             <string>/// Client creation
+
 Socket = network_create_socket(network_socket_tcp);
-//isConnected = network_connect(Socket, "127.0.0.1" , 63258);
+network_set_timeout(Socket, 3000, 3000); // Make configurable
+//isConnected = network_connect(Socket, "127.0.0.1" , 63258); // Make configurable
 Buffer = buffer_create(1024, buffer_fixed, 1);
-Result = 0;
-Ping = 0;
+result = 0;
+ping = 0;
 </string>
           </argument>
         </arguments>
@@ -53,11 +55,11 @@ Ping = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Send Ping
+            <string>/// Send ping
 buffer_seek(Buffer, buffer_seek_start, 0);
 buffer_write(Buffer, buffer_u8, 1);
 buffer_write(Buffer, buffer_u32, current_time);
-Result = network_send_packet(Socket, Buffer, buffer_tell(Buffer));
+result = network_send_packet(Socket, Buffer, buffer_tell(Buffer));
 </string>
           </argument>
         </arguments>
@@ -86,7 +88,7 @@ switch(type_event) {
    case network_type_data:
       var buffer = ds_map_find_value(async_load, "buffer");
       buffer_seek(buffer, buffer_seek_start, 0);
-      ReceivedPacket(buffer);
+      received_packets(buffer);
    break;
 }
 </string>
@@ -119,7 +121,7 @@ buffer_delete(Buffer);
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -136,9 +138,59 @@ buffer_delete(Buffer);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_set_color(c_white);
-draw_text(5, 5, "Connected: " + string(Result &gt;= 0));
-draw_text(5, 20, "My Ping: " + string(Ping));
+            <string>/// Utility drawing
+
+var c1 = c_black;
+var c2 = c_red;
+
+/** Draw ping */
+var draw_ping_x = 10;
+var draw_ping_y = 40;
+draw_set_color(c_white);
+draw_set_alpha(0.4);
+// Draw rectangle
+if (ping &lt; 1) {
+    draw_rectangle(view_xview[view_current] + draw_ping_x - 5, view_yview[view_current] + draw_ping_y - 5, view_xview[view_current] + draw_ping_x + 126, view_yview[view_current] + draw_ping_y + 20, 0);
+}
+else if (ping &lt; 100) {
+    draw_rectangle(view_xview[view_current] + draw_ping_x - 5, view_yview[view_current] + draw_ping_y - 5, view_xview[view_current] + draw_ping_x + 104, view_yview[view_current] + draw_ping_y + 20, 0);
+}
+else if (ping &lt; 1000) {
+    draw_rectangle(view_xview[view_current] + draw_ping_x - 5, view_yview[view_current] + draw_ping_y - 5, view_xview[view_current] + draw_ping_x + 116, view_yview[view_current] + draw_ping_y + 20, 0);
+}
+else {
+    draw_rectangle(view_xview[view_current] + draw_ping_x - 5, view_yview[view_current] + draw_ping_y - 5, view_xview[view_current] + draw_ping_x + 124, view_yview[view_current] + draw_ping_y + 20, 0);
+}
+draw_set_alpha(1);
+// Draw text
+if (ping &lt; 1) {
+    draw_text_color(view_xview[view_current] + draw_ping_x, view_yview[view_current] + draw_ping_y, "No connection", c1, c1, c2, c2, 1);
+}
+else if (ping &lt; 1000) {
+    draw_text_color(view_xview[view_current] + draw_ping_x, view_yview[view_current] + draw_ping_y, "Ping: " + string(ping) + " ms", c1, c1, c2, c2, 1);
+}
+else {
+    draw_text_color(view_xview[view_current] + draw_ping_x, view_yview[view_current] + draw_ping_y, "Ping: 999+ ms", c1, c1, c2, c2, 1);
+}
+
+
+/** Draw FPS */
+var draw_fps_x = 10;
+var draw_fps_y = 10;
+draw_set_color(c_white);
+draw_set_alpha(0.4);
+// Draw rectangle
+if (room_speed &lt; 100) {
+    draw_rectangle(view_xview[view_current] + draw_fps_x - 5, view_yview[view_current] + draw_fps_y - 5, view_xview[view_current] + draw_fps_x + 116, view_yview[view_current] + draw_fps_y + 20, 0);
+}
+else {
+    draw_rectangle(view_xview[view_current] + draw_fps_x - 5, view_yview[view_current] + draw_fps_y - 5, view_xview[view_current] + draw_fps_x + 134, view_yview[view_current] + draw_fps_y + 20, 0);
+}
+draw_set_alpha(1);
+draw_set_color(c_black);
+// Draw text
+draw_text_color(view_xview[view_current] + draw_fps_x, view_yview[view_current] + draw_fps_y, "FPS: " + string(fps) + " / " + string(room_speed), c1, c1, c2, c2, 1);
+
 </string>
           </argument>
         </arguments>
