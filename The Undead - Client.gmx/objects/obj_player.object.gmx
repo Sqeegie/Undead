@@ -27,10 +27,13 @@
             <kind>1</kind>
             <string>///Variables
 
+// Base stats
+health = 100;
+name = global.username;
+
 // Movement and rotation
 turnRate = 8 /* * (60 / max(room_speed, 1))*/; // The desired turnrate, adjusted for the high room speed
 currentRotation = (point_direction(x, y, mouse_x, mouse_y)); // The current desired rotation is the mouse
-
 speedMod = 1; // This is multiplied by all the movement speeds (strafing, forwards, backwards)
 
 // Base movement speed variables.
@@ -61,7 +64,8 @@ sprintSpeedMultiplier = 1.5; // 150% increase to the baseSpeed
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>currentRotation = point_direction(x, y, mouse_x, mouse_y);
+            <string>/// Get the current rotation
+currentRotation = point_direction(x, y, mouse_x, mouse_y);
 </string>
           </argument>
         </arguments>
@@ -93,141 +97,6 @@ var base_angle = self.image_angle;
 var delta = max(-30, min(30, angle_difference(target_angle, base_angle)));
 // Rotate towards computed angle:
 image_angle = angle_rotate(image_angle, base_angle + delta, turnRate);
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/// Movement
-
-/*===================================================================================
-    This will probably need a recode in the future... I unfortunately know next to
-    nothing about collision and movement, so this is poorly executed.
-====================================================================================*/
-
-direction = image_angle;
-
-// Start of extra configability
-var forwardKey = ord("W");
-var backwardKey = ord("S");
-var leftStrafeKey = ord("A");
-var rightStrafeKey = ord("D");
-var sprintKey = vk_shift;
-var doesSprintAffectStrafe = false;
-var doesSprintAffectBackward = true;
-var useSprintBackwardMultiplier = true; // Need to implement this
-var useSprintStrafeMultiplier = true; // Need to implement this
-var sprintBackwardMultiplier = 1.2; // Need to implement this
-var sprintStrafeMultiplier = 1.2; // Need to implement this
-var disableForwardMovementWhenReachedMouse = true;
-
-/* Forward motion */
-if (keyboard_check(forwardKey)) {
-    if (point_distance(self.x, self.y, mouse_x, mouse_y) &lt; 5 &amp;&amp; disableForwardMovementWhenReachedMouse) { // If the player has reached the mouse and option is enabled
-        // Stop forward movement
-    }
-    else { // Didn't reach the mouse or option isn't enabled
-        var forwardSpeed;
-        if (keyboard_check(sprintKey)) { // Is sprinting
-            forwardSpeed = baseSpeed * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
-        }
-        else {
-            forwardSpeed = baseSpeed * speedMod / roomSpeedMod; // Speed
-        }
-        
-        // Planned movement location
-        var newX = self.x + lengthdir_x(forwardSpeed, direction);
-        var newY = self.y + lengthdir_y(forwardSpeed, direction);
-        
-        // Check if planned movement location is empty
-        if (place_empty(self.x, newY)) {
-            self.y += lengthdir_y(forwardSpeed, direction); // Move in the empty direction
-        }
-        if (place_empty(newX, self.y)) {
-            self.x += lengthdir_x(forwardSpeed, direction); // Move in the empty direction
-        }
-    }
-}
-
-/* Backward motion */
-if (keyboard_check(backwardKey)) {
-    var backwardSpeed;
-    if (keyboard_check(sprintKey) &amp;&amp; doesSprintAffectBackward) { // Is sprinting
-        backwardSpeed = baseSpeed * baseBackwardSpeedMultiplier * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
-    }
-    else {
-        backwardSpeed = baseSpeed * baseBackwardSpeedMultiplier * speedMod / roomSpeedMod; // Speed
-    }
-    
-    // Planned movement location
-    var newX = self.x + lengthdir_x(backwardSpeed, direction - 180);
-    var newY = self.y + lengthdir_y(backwardSpeed, direction - 180);
-    
-    // Check if planned movement location is empty
-    if (place_empty(self.x, newY)) {
-        self.y += lengthdir_y(backwardSpeed, direction - 180); // Move in the empty direction
-    }
-    if (place_empty(newX, self.y)) {
-        self.x += lengthdir_x(backwardSpeed, direction - 180); // Move in the empty direction
-    }
-}
-
-/* Take care of strafing */
-var strafe = 0;
-// Give directional speed depending on desired movement direction
-if (keyboard_check(leftStrafeKey)) {    
-    if (keyboard_check(sprintKey) &amp;&amp; doesSprintAffectStrafe) { // Is sprinting
-        strafe -= baseSpeed * baseStrafeSpeedMultiplier * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
-    }
-    else {
-        strafe -= baseSpeed * baseStrafeSpeedMultiplier * speedMod / roomSpeedMod; // Speed
-    }
-}
-if (keyboard_check(rightStrafeKey)) {
-    if (keyboard_check(sprintKey) &amp;&amp; doesSprintAffectStrafe) { // Is sprinting
-        strafe += baseSpeed * baseStrafeSpeedMultiplier * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
-    }
-    else {
-        strafe += baseSpeed * baseStrafeSpeedMultiplier * speedMod / roomSpeedMod; // Speed
-    }
-}
-// If the player is pressing a "strafe" key
-if (strafe != 0) {
-    
-    if (keyboard_check(forwardKey) || keyboard_check(backwardKey)) {
-        strafe *= 0.5; // Quick fix to provent players from increasing movement speed by pressing two keys at once. Causing major nerf to sideways movement when forward motion is also applied.
-    }
-
-    // Planned movement location
-    var newX = self.x + lengthdir_x(strafe, direction - 90);
-    var newY = self.y + lengthdir_y(strafe, direction - 90);
-    
-    // Check if planned movement location is empty
-    if (place_empty(self.x, newY)) {
-        self.y += lengthdir_y(strafe, direction - 90); // Move in the empty direction
-    }
-    if (place_empty(newX, self.y)) {
-        self.x += lengthdir_x(strafe, direction - 90); // Move in the empty direction
-    }
-}
-
-//Some code courtesy of https://www.reddit.com/r/gamemaker/comments/2h9csl/how_to_make_an_object_move_towards_the_mouse/
-//Note that he forgot to add the if strafe != 0, so it was continually strafing
 </string>
           </argument>
         </arguments>
@@ -343,6 +212,149 @@ if (keyboard_check(rightStrafeKey)) {
 }
 // If the player is pressing a "strafe" key
 if (strafe != 0) {
+    
+    if (keyboard_check(forwardKey) || keyboard_check(backwardKey)) {
+        strafe *= 0.5; // Quick fix to provent players from increasing movement speed by pressing two keys at once. Causing major nerf to sideways movement when forward motion is also applied.
+    }
+
+    // Planned movement location
+    var newX = self.x + lengthdir_x(strafe, direction - 90);
+    var newY = self.y + lengthdir_y(strafe, direction - 90);
+    
+    // Check if planned movement location is empty
+    if (place_empty(self.x, newY)) {
+        self.y += lengthdir_y(strafe, direction - 90); // Move in the empty direction
+    }
+    if (place_empty(newX, self.y)) {
+        self.x += lengthdir_x(strafe, direction - 90); // Move in the empty direction
+    }
+}
+
+//Some code courtesy of https://www.reddit.com/r/gamemaker/comments/2h9csl/how_to_make_an_object_move_towards_the_mouse/
+//Note that he forgot to add the if strafe != 0, so it was continually strafing
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Movement
+
+/*===================================================================================
+    This will probably need a recode in the future... I unfortunately know next to
+    nothing about collision and movement, so this is poorly executed.
+====================================================================================*/
+
+direction = image_angle;
+
+// Start of extra configability
+var forwardKey = ord("W");
+var backwardKey = ord("S");
+var leftStrafeKey = ord("A");
+var rightStrafeKey = ord("D");
+var sprintKey = vk_shift;
+var doesSprintAffectStrafe = false;
+var doesSprintAffectBackward = true;
+var useSprintBackwardMultiplier = true; // Need to implement this
+var useSprintStrafeMultiplier = true; // Need to implement this
+var sprintBackwardMultiplier = 1.2; // Need to implement this
+var sprintStrafeMultiplier = 1.2; // Need to implement this
+var disableForwardMovementWhenReachedMouse = true;
+
+move_bounce_solid(true);
+
+/* Forward motion */
+if (keyboard_check(forwardKey)) {
+    if (point_distance(self.x, self.y, mouse_x, mouse_y) &lt; 5 &amp;&amp; disableForwardMovementWhenReachedMouse) { // If the player has reached the mouse and option is enabled
+        // Stop forward movement
+        speed = 0;
+    }
+    else { // Didn't reach the mouse or option isn't enabled
+        var forwardSpeed;
+        if (keyboard_check(sprintKey)) { // Is sprinting
+            forwardSpeed = baseSpeed * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
+        }
+        else {
+            forwardSpeed = baseSpeed * speedMod / roomSpeedMod; // Speed
+        }
+        
+        // Planned movement location
+        var newX = self.x + lengthdir_x(forwardSpeed, direction);
+        var newY = self.y + lengthdir_y(forwardSpeed, direction);
+        
+        // Check if planned movement location is empty
+        if (place_empty(self.x, newY)) {
+            
+        }
+        if (place_empty(newX, self.y)) {
+            
+        }
+    }
+}
+
+/* Backward motion */
+if (keyboard_check(backwardKey)) {
+    var backwardSpeed;
+    if (keyboard_check(sprintKey) &amp;&amp; doesSprintAffectBackward) { // Is sprinting
+        backwardSpeed = baseSpeed * baseBackwardSpeedMultiplier * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
+    }
+    else {
+        backwardSpeed = baseSpeed * baseBackwardSpeedMultiplier * speedMod / roomSpeedMod; // Speed
+    }
+    
+    // Planned movement location
+    var newX = self.x + lengthdir_x(backwardSpeed, direction - 180);
+    var newY = self.y + lengthdir_y(backwardSpeed, direction - 180);
+    
+    // Check if planned movement location is empty
+    if (place_empty(self.x, newY)) {
+        self.y += lengthdir_y(backwardSpeed, direction - 180); // Move in the empty direction
+    }
+    if (place_empty(newX, self.y)) {
+        self.x += lengthdir_x(backwardSpeed, direction - 180); // Move in the empty direction
+    }
+}
+
+/* Take care of strafing */
+var strafe = 0;
+// Give directional speed depending on desired movement direction
+if (keyboard_check(leftStrafeKey)) {    
+    if (keyboard_check(sprintKey) &amp;&amp; doesSprintAffectStrafe) { // Is sprinting
+        strafe -= baseSpeed * baseStrafeSpeedMultiplier * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
+    }
+    else {
+        strafe -= baseSpeed * baseStrafeSpeedMultiplier * speedMod / roomSpeedMod; // Speed
+    }
+}
+if (keyboard_check(rightStrafeKey)) {
+    if (keyboard_check(sprintKey) &amp;&amp; doesSprintAffectStrafe) { // Is sprinting
+        strafe += baseSpeed * baseStrafeSpeedMultiplier * sprintSpeedMultiplier * speedMod / roomSpeedMod; // Speed with sprint
+    }
+    else {
+        strafe += baseSpeed * baseStrafeSpeedMultiplier * speedMod / roomSpeedMod; // Speed
+    }
+}
+// If the player is pressing a "strafe" key
+if (strafe != 0) {
+    
+    if (keyboard_check(forwardKey) || keyboard_check(backwardKey)) {
+        strafe *= 0.58; // Quick fix to provent players from increasing movement speed by pressing two keys at once. Causing major nerf to sideways movement when forward motion is also applied.
+    }
+
     // Planned movement location
     var newX = self.x + lengthdir_x(strafe, direction - 90);
     var newY = self.y + lengthdir_y(strafe, direction - 90);
@@ -363,7 +375,7 @@ if (strafe != 0) {
         </arguments>
       </action>
     </event>
-    <event eventtype="4" ename="obj_solid">
+    <event eventtype="4" ename="obj_par_solid">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -381,6 +393,7 @@ if (strafe != 0) {
           <argument>
             <kind>1</kind>
             <string>/// Simple fix to provent rotatation into an object
+move_bounce_solid(true);
 move_outside_solid(point_direction(other.x, other.y, x, y), 5);
 </string>
           </argument>

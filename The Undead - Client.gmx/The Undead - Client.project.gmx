@@ -84,6 +84,7 @@
   <objects name="objects">
     <object>objects\obj_client</object>
     <object>objects\obj_lightengine</object>
+    <object>objects\obj_gamecontrol</object>
     <object>objects\obj_player</object>
     <objects name="Decor">
       <object>objects\obj_bush01</object>
@@ -91,7 +92,7 @@
       <object>objects\obj_crate01</object>
     </objects>
     <objects name="Parents">
-      <object>objects\obj_solid</object>
+      <object>objects\obj_par_solid</object>
     </objects>
   </objects>
   <rooms name="rooms">
