@@ -3,9 +3,9 @@
   <spriteName>spr_crate01</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>1</depth>
+  <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_solid</parentName>
+  <parentName>obj_par_solid</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events/>
   <PhysicsObject>0</PhysicsObject>
