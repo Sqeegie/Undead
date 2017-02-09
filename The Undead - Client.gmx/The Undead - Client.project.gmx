@@ -3,9 +3,11 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
+  <datafiles number="9" name="datafiles"/>
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
+    <sprite>sprites\spr_alert_node</sprite>
     <sprite>sprites\spr_block</sprite>
     <sprite>sprites\spr_bush01</sprite>
     <sprite>sprites\spr_bush01_shadow</sprite>
@@ -14,12 +16,14 @@
     <sprite>sprites\spr_character_smask</sprite>
     <sprite>sprites\spr_character2</sprite>
     <sprite>sprites\spr_cloud</sprite>
+    <sprite>sprites\spr_controller</sprite>
     <sprite>sprites\spr_crate01</sprite>
     <sprite>sprites\spr_crate02</sprite>
     <sprite>sprites\spr_crate03</sprite>
-    <sprite>sprites\spr_cratemask</sprite>
     <sprite>sprites\spr_crate03b</sprite>
+    <sprite>sprites\spr_cratemask</sprite>
     <sprite>sprites\spr_cursor</sprite>
+    <sprite>sprites\spr_derp</sprite>
     <sprite>sprites\spr_fire</sprite>
     <sprite>sprites\spr_ico_light</sprite>
     <sprite>sprites\spr_ico_light2</sprite>
@@ -29,6 +33,7 @@
     <sprite>sprites\spr_light04</sprite>
     <sprite>sprites\spr_light05</sprite>
     <sprite>sprites\spr_minimap</sprite>
+    <sprite>sprites\spr_parent</sprite>
     <sprite>sprites\spr_plant01</sprite>
     <sprite>sprites\spr_plant01_shadow</sprite>
     <sprite>sprites\spr_shadow_mask</sprite>
@@ -39,6 +44,7 @@
     <sprite>sprites\spr_tods</sprite>
     <sprite>sprites\spr_vehicle</sprite>
     <sprite>sprites\sprite31</sprite>
+    <sprite>sprites\sprite31_new</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bck_01</background>
@@ -77,22 +83,42 @@
       <script>scripts\SL_sprite_set_ambient.gml</script>
       <script>scripts\SL_set_time.gml</script>
     </scripts>
-    <script>scripts\difference_angle.gml</script>
     <script>scripts\angle_rotate.gml</script>
+    <script>scripts\difference_angle.gml</script>
     <script>scripts\received_packets.gml</script>
+    <script>scripts\scr_cansee.gml</script>
+    <script>scripts\scr_collision_line_first.gml</script>
+    <script>scripts\scr_path_create.gml</script>
+    <script>scripts\scr_alert_node_search.gml</script>
   </scripts>
   <objects name="objects">
-    <object>objects\obj_client</object>
-    <object>objects\obj_lightengine</object>
-    <object>objects\obj_gamecontrol</object>
     <object>objects\obj_player</object>
-    <objects name="Decor">
-      <object>objects\obj_bush01</object>
-      <object>objects\obj_crate02</object>
-      <object>objects\obj_crate01</object>
+    <objects name="AI">
+      <object>objects\obj_alert_node</object>
+    </objects>
+    <objects name="Controllers">
+      <object>objects\obj_client</object>
+      <object>objects\obj_lightengine</object>
+      <object>objects\obj_gamecontrol</object>
     </objects>
     <objects name="Parents">
-      <object>objects\obj_par_solid</object>
+      <objects name="Enemies">
+        <object>objects\obj_par_enemy</object>
+        <object>objects\obj_par_zombie</object>
+        <object>objects\obj_zombie</object>
+      </objects>
+      <objects name="Objects">
+        <object>objects\obj_par_solid</object>
+      </objects>
+    </objects>
+    <objects name="Environment">
+      <objects name="Veggies">
+        <object>objects\obj_bush01</object>
+      </objects>
+      <objects name="Objects">
+        <object>objects\obj_crate01</object>
+        <object>objects\obj_crate02</object>
+      </objects>
     </objects>
   </objects>
   <rooms name="rooms">
