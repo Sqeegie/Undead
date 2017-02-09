@@ -181,6 +181,7 @@ if (current_time - timeCollided &gt; collisionTimeTolerence) { // Been colliding
 }
 else {
     maskRadius = defaultMaskRadius; // Reset the maskRadius when the objects are no longer colliding
+    // TODO: Make the mask radius slowly increase instead of snapping to full size instantly
 }
 
 

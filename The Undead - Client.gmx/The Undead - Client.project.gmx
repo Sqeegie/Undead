@@ -86,10 +86,10 @@
     <script>scripts\angle_rotate.gml</script>
     <script>scripts\difference_angle.gml</script>
     <script>scripts\received_packets.gml</script>
-    <script>scripts\scr_cansee.gml</script>
-    <script>scripts\scr_collision_line_first.gml</script>
     <script>scripts\scr_path_create.gml</script>
     <script>scripts\scr_alert_node_search.gml</script>
+    <script>scripts\instance_nth_nearest.gml</script>
+    <script>scripts\collision_circle_list.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
